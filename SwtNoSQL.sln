@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwtNoSQL", "SwtNoSQL\SwtNoSQL.csproj", "{AF99C290-348C-4F79-B989-50072FC6234B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoSQLUnitTest", "TestProject1\NoSQLUnitTest.csproj", "{29E81D68-4235-4D03-984C-D0846872F83A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6CDE1AC0-2C31-4E1C-A77F-0D7FA309C286}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		SwtNoSQL.vsmdi = SwtNoSQL.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SwtNoSQL.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AF99C290-348C-4F79-B989-50072FC6234B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF99C290-348C-4F79-B989-50072FC6234B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF99C290-348C-4F79-B989-50072FC6234B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF99C290-348C-4F79-B989-50072FC6234B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29E81D68-4235-4D03-984C-D0846872F83A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29E81D68-4235-4D03-984C-D0846872F83A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29E81D68-4235-4D03-984C-D0846872F83A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29E81D68-4235-4D03-984C-D0846872F83A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
