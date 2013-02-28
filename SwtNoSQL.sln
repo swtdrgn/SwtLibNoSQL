@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwtNoSQL", "SwtNoSQL\SwtNoSQL.csproj", "{AF99C290-348C-4F79-B989-50072FC6234B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoSQLUnitTest", "TestProject1\NoSQLUnitTest.csproj", "{29E81D68-4235-4D03-984C-D0846872F83A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoSQLUnitTest", "NoSQLUnitTest\NoSQLUnitTest.csproj", "{29E81D68-4235-4D03-984C-D0846872F83A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6CDE1AC0-2C31-4E1C-A77F-0D7FA309C286}"
 	ProjectSection(SolutionItems) = preProject

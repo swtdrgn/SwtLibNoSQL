@@ -5,8 +5,10 @@ using System.Text;
 
 namespace SwtLib
 {
-    public interface NoSQLDatabase
+    public abstract class NoSQLDatabase
     {
-        //public
+        public abstract NoSQLTable CreateTable(string tableName);
+        public abstract NoSQLTable GetTable(string tableName);
+        public abstract IEnumerable<NoSQLTable> ListTables();
     }
 }
