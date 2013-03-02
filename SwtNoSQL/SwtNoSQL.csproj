@@ -60,11 +60,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AzureNoSQLDatabase.cs" />
+    <Compile Include="Azure\AzureNoSQLDatabase.cs" />
     <Compile Include="Azure\AzureTable.cs" />
     <Compile Include="NoSQLAccount.cs" />
+    <Compile Include="NoSQLCondition.cs" />
     <Compile Include="NoSQLDatabase.cs" />
+    <Compile Include="NoSQLFilter.cs" />
     <Compile Include="NoSQLTable.cs" />
+    <Compile Include="NoSQLTableEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
