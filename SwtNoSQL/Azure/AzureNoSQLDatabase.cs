@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using SwtLib.Azure;
 
-namespace SwtLib
+namespace SwtLib.Azure
 {
     public class AzureNoSQLDatabase : NoSQLDatabase
     {

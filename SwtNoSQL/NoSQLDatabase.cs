@@ -7,6 +7,7 @@ namespace SwtLib
 {
     public abstract class NoSQLDatabase
     {
+        public static NoSQLDatabase Connect(Microsoft.WindowsAzure.Storage.CloudStorageAccount account) { return new Azure.AzureNoSQLDatabase(account); }
         public abstract NoSQLTable CreateTable(string tableName);
         public abstract NoSQLTable GetTable(string tableName);
         public abstract IEnumerable<NoSQLTable> ListTables();

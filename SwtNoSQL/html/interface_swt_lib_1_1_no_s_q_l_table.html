@@ -62,6 +62,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
       <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,14 +98,76 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a9b42e3a43065b3231454c33c90280caf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9b42e3a43065b3231454c33c90280caf"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Drop</b> ()</td></tr>
 <tr class="separator:a9b42e3a43065b3231454c33c90280caf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f49d096b6f92580a3dbbf6a368fe4ba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6f49d096b6f92580a3dbbf6a368fe4ba"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Insert</b> (<a class="el" href="class_swt_lib_1_1_no_s_q_l_table_entity.html">NoSQLTableEntity</a> entity)</td></tr>
+<tr class="separator:a6f49d096b6f92580a3dbbf6a368fe4ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a172cb998544a42ca9379d492ab54ceba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a172cb998544a42ca9379d492ab54ceba"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Insert&lt; T &gt;</b> (<a class="el" href="class_swt_lib_1_1_no_s_q_l_table_entity.html">NoSQLTableEntity</a> entity)</td></tr>
+<tr class="separator:a172cb998544a42ca9379d492ab54ceba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5cc749a886e8f0d7b1023f7a75f713bb"><td class="memItemLeft" align="right" valign="top">T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_swt_lib_1_1_no_s_q_l_table.html#a5cc749a886e8f0d7b1023f7a75f713bb">Get&lt; T &gt;</a> (string partitionKey, string rowKey)</td></tr>
+<tr class="memdesc:a5cc749a886e8f0d7b1023f7a75f713bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fetches data from the NoSQL table.  <a href="#a5cc749a886e8f0d7b1023f7a75f713bb">More...</a><br/></td></tr>
+<tr class="separator:a5cc749a886e8f0d7b1023f7a75f713bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa04b469df6c164ec2bed3ea86ec37438"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa04b469df6c164ec2bed3ea86ec37438"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Delete</b> (<a class="el" href="class_swt_lib_1_1_no_s_q_l_table_entity.html">NoSQLTableEntity</a> entity)</td></tr>
+<tr class="separator:aa04b469df6c164ec2bed3ea86ec37438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a5cc749a886e8f0d7b1023f7a75f713bb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">T SwtLib.NoSQLTable.Get&lt; T &gt; </td>
+          <td>(</td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>partitionKey</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>rowKey</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Fetches data from the NoSQL table. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Return type.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">partitionKey</td><td>Partition key.</td></tr>
+    <tr><td class="paramname">rowKey</td><td>Row key.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns data as T if data is found. Otherwise, returns null.</dd></dl>
+<div class="typeconstraint">
+<dl><dt><b>Type Constraints</b><dt><dd>
+<table border="0" cellspacing="2" cellpadding="0">
+<tr><td valign="top"><em>T</em></td><td>&#160;:</td><td valign="top"><em>NoSQLTableEntity</em></td><td>&#160;</td></tr>
+</table>
+</dl>
+</div>
+
+</div>
+</div>
 <hr/>The documentation for this interface was generated from the following file:<ul>
 <li>NoSQLTable.cs</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 1 2013 17:22:34 for SwtLibNoSQL by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 2 2013 22:52:54 for SwtLibNoSQL by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.3.1
 </small></address>
