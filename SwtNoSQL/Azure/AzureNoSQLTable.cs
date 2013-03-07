@@ -6,12 +6,12 @@ using Microsoft.WindowsAzure.Storage.Table;
 
 namespace SwtLib.Azure
 {
-    public class AzureTable : NoSQLTable
+    public class AzureNoSQLTable : NoSQLTable
     {
         AzureNoSQLDatabase _database;
         string _tableName;
 
-        public AzureTable(AzureNoSQLDatabase database, string tableName)
+        public AzureNoSQLTable(AzureNoSQLDatabase database, string tableName)
         {
             _database = database;
             _tableName = tableName;

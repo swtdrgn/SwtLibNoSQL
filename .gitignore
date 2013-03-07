@@ -163,4 +163,4 @@ pip-log.txt
 .DS_Store
 
 # App.config with sensitive information
-NoSQLUnitTest/App.config
+NoSQLUnitTest/Credentials.xml

@@ -17,9 +17,9 @@ namespace SwtLib.Azure
 
         public override NoSQLTable GetTable(string tableName)
         {
-            if (AzureTable.Exist(this, tableName))
+            if (AzureNoSQLTable.Exist(this, tableName))
             {
-                return new AzureTable(this, tableName);
+                return new AzureNoSQLTable(this, tableName);
             }
             else
             {
@@ -29,7 +29,7 @@ namespace SwtLib.Azure
 
         public override NoSQLTable CreateTable(string tableName)
         {
-            AzureTable table = new AzureTable(this, tableName);
+            AzureNoSQLTable table = new AzureNoSQLTable(this, tableName);
             table.CreateTable();
             return table;
         }

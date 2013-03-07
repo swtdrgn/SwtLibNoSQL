@@ -16,6 +16,7 @@ namespace NoSQL.UnitTest
     public class AzureNoSQL
     {
         CloudStorageAccount _azureAccount;
+        NoSQLTable _table;
 
         public AzureNoSQL()
         {
@@ -24,57 +25,77 @@ namespace NoSQL.UnitTest
             //
         }
 
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        [ClassInitialize]
+        [TestInitialize]
         public void Initialize()
         {
-            _azureAccount = CloudStorageAccount.Parse(ConfigurationManager.ConnectionStrings["AzureAccount"].ConnectionString);
+            _azureAccount = NoSQLCredential.Azure;
+            CreateTableForTesting();
         }
 
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
+        [TestCleanup]
+        public void ReleaseResources()
+        {
+            ReleaseTableName();
+        }
 
-        [TestMethod]
-        public void TestTableOperations()
+        public void CreateTableForTesting()
         {
             var database = NoSQLDatabase.Connect(_azureAccount);
+            string tableBaseName = "TestNoSQLTable";
+            string tableName = tableBaseName;
 
+            var table = database.GetTable(tableName);
+            int attempts = 0;
+
+            // Find a table name that does not already exist in the database.
+            while (table != null && attempts < 100)
+            {
+                tableName = tableBaseName + new Random().NextDouble();
+                table = database.GetTable(tableName);
+                attempts++;
+            }
+
+            if (attempts < 100)
+            {
+                database.CreateTable(tableName); // Create.
+                _table = database.GetTable(tableName); // Get.
+                Assert.AreNotEqual(null, _table); // Verify
+            }
+            else
+            {
+                // Too many attempts
+                Assert.Fail("Cannot find a nonexistent table to create.");
+            }
+        }
+
+        public void ReleaseTableName()
+        {
+            string tableName = _table.Name;
+            var database = NoSQLDatabase.Connect(_azureAccount);
+
+            _table.Drop(); // Delete.
+            var verifyDeletedTable = database.GetTable(tableName); // Get.
+            Assert.AreEqual(null, verifyDeletedTable); // Verify.
+        }
+
+        class TableRowTest : NoSQLTableEntity
+        {
+            public int Number { get; set; }
+        }
+
+        [TestMethod]
+        public void TestRowOperations()
+        {
+            TableRowTest rowTest = new TableRowTest();
+            rowTest.Number = new Random().Next(100);
+            rowTest.PartitionKey = "PartitionKeyTest";
+            rowTest.RowKey = "RowKeyTest";
+            _table.Insert(rowTest);
+            var getCreatedRow = _table.Get<TableRowTest>(rowTest.PartitionKey, rowTest.RowKey);
+            Assert.AreEqual(rowTest.Number, getCreatedRow.Number);
+            _table.Delete(rowTest);
+            var getDeletedRow = _table.Get<TableRowTest>(rowTest.PartitionKey, rowTest.RowKey);
+            Assert.AreEqual(null, getDeletedRow);
         }
     }
 }

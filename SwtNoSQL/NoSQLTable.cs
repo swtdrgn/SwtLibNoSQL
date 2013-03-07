@@ -7,8 +7,8 @@ namespace SwtLib
 {
     public interface NoSQLTable
     {
+        string Name { get; }
         void Drop();
-
 
         void Insert(NoSQLTableEntity entity);
         void Insert<T>(NoSQLTableEntity entity) where T : NoSQLTableEntity;

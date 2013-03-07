@@ -61,7 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Azure\AzureNoSQLDatabase.cs" />
-    <Compile Include="Azure\AzureTable.cs" />
+    <Compile Include="Azure\AzureNoSQLTable.cs" />
+    <Compile Include="DynamoDB\DynamoDB.cs" />
+    <Compile Include="DynamoDB\DynamoDBTable.cs" />
     <Compile Include="NoSQLAccount.cs" />
     <Compile Include="NoSQLCondition.cs" />
     <Compile Include="NoSQLDatabase.cs" />
@@ -73,9 +75,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DynamoDB\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
