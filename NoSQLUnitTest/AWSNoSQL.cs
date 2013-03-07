@@ -6,51 +6,42 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Amazon.Runtime;
 
+using SwtLib;
+
 namespace NoSQL.UnitTest
 {
     /// <summary>
     /// Summary description for AmazonNoSQL
     /// </summary>
     [TestClass]
-    public class AmazonNoSQL
+    public class AWSNoSQL
     {
         AWSCredentials _amazonAccount;
+        NoSQLTable _table;
 
-        public AmazonNoSQL()
+        public AWSNoSQL()
         {
             //
             // TODO: Add constructor logic here
             //
         }
 
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        /*public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
         [TestInitialize]
         public void Initialize()
         {
-            _amazonAccount = new BasicAWSCredentials(
+            _amazonAccount = NoSQLCredential.AWS;
             CreateTableForTesting();
+        }
+
+        [TestCleanup]
+        public void ReleaseResources()
+        {
+            ReleaseTableName();
         }
 
         public void CreateTableForTesting()
         {
-            var database = NoSQLDatabase.Connect(_azureAccount);
+            var database = NoSQLDatabase.Connect(_amazonAccount);
             string tableBaseName = "TestNoSQLTable";
             string tableName = tableBaseName;
 
@@ -78,12 +69,19 @@ namespace NoSQL.UnitTest
             }
         }
 
-        [TestMethod]
-        public void TestMethod1()
+        public void ReleaseTableName()
         {
-            //
-            // TODO: Add test logic here
-            //
-        }*/
+            string tableName = _table.Name;
+            var database = NoSQLDatabase.Connect(_amazonAccount);
+
+            _table.Drop(); // Delete.
+            var verifyDeletedTable = database.GetTable(tableName); // Get.
+            Assert.AreEqual(null, verifyDeletedTable); // Verify.
+        }
+
+        [TestMethod]
+        public void TestRowOperations()
+        {
+        }
     }
 }

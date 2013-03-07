@@ -29,7 +29,7 @@ namespace SwtLib.Azure
 
         public override NoSQLTable CreateTable(string tableName)
         {
-            AzureNoSQLTable table = new AzureNoSQLTable(this, tableName);
+            var table = new AzureNoSQLTable(this, tableName);
             table.CreateTable();
             return table;
         }

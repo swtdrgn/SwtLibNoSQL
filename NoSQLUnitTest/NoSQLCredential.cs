@@ -30,8 +30,8 @@ namespace NoSQL.UnitTest
 
             try
             {
-                var element = xmldoc.GetElementsByTagName("AWS")[0];
-                _awsAccount = new BasicAWSCredentials(element["AccessKey"].Value, element["SecretKey"].Value);
+                var attributes = xmldoc.GetElementsByTagName("AWS")[0].Attributes;
+                _awsAccount = new BasicAWSCredentials(attributes["AccessKey"].Value, attributes["SecretKey"].Value);
             }
             catch { _awsAccount = null; }
         }

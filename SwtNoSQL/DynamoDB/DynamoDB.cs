@@ -13,19 +13,27 @@ namespace SwtLib.DynamoDB
     {
         AWSCredentials _account;
 
-        public AmazonDynamoDBClient Connect()
-        {
-            return new AmazonDynamoDBClient(_account);
-        }
+        public DynamoDB(AWSCredentials account) { _account = account; }
+
+        public AmazonDynamoDBClient Connect() { return new AmazonDynamoDBClient(_account); }
 
         public override NoSQLTable CreateTable(string tableName)
         {
-            throw new NotImplementedException();
+            var table = new DynamoDBTable(this, tableName);
+            table.CreateTable();
+            return table;
         }
 
         public override NoSQLTable GetTable(string tableName)
         {
-            throw new NotImplementedException();
+            if (DynamoDBTable.Exist(Connect(), tableName))
+            {
+                return new DynamoDBTable(this, tableName);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public override IEnumerable<NoSQLTable> ListTables()

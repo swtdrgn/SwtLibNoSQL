@@ -30,12 +30,12 @@ namespace SwtLib.Azure
             Table.Execute(insertOp);
         }
 
-        public void Insert<T>(NoSQLTableEntity entity) where T : NoSQLTableEntity
+        public void Insert<T>(NoSQLTableEntity entity) where T : NoSQLTableEntity, new()
         {
             throw new NotImplementedException();
         }
 
-        public T Get<T>(string partitionKey, string rowKey) where T : NoSQLTableEntity
+        public T Get<T>(string partitionKey, string rowKey) where T : NoSQLTableEntity, new()
         {
             var getOp = TableOperation.Retrieve<T>(partitionKey,rowKey);
             var response = Table.Execute(getOp);
