@@ -12,10 +12,11 @@ namespace SwtLib.DynamoDB
     public class DynamoDB : NoSQLDatabase
     {
         AWSCredentials _account;
+        AmazonDynamoDBClient _databaseClient;
 
-        public DynamoDB(AWSCredentials account) { _account = account; }
+        public DynamoDB(AWSCredentials account) { _account = account; _databaseClient = new AmazonDynamoDBClient(_account); }
 
-        public AmazonDynamoDBClient Connect() { return new AmazonDynamoDBClient(_account); }
+        public AmazonDynamoDBClient Client() { return _databaseClient; }
 
         public override NoSQLTable CreateTable(string tableName)
         {
@@ -26,7 +27,7 @@ namespace SwtLib.DynamoDB
 
         public override NoSQLTable GetTable(string tableName)
         {
-            if (DynamoDBTable.Exist(Connect(), tableName))
+            if (DynamoDBTable.Exist(Client(), tableName))
             {
                 return new DynamoDBTable(this, tableName);
             }

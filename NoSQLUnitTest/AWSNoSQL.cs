@@ -79,9 +79,24 @@ namespace NoSQL.UnitTest
             Assert.AreEqual(null, verifyDeletedTable); // Verify.
         }
 
+        class TableRowTest : NoSQLTableEntity
+        {
+            public int Number { get; set; }
+        }
+
         [TestMethod]
         public void TestRowOperations()
         {
+            TableRowTest rowTest = new TableRowTest();
+            rowTest.Number = new Random().Next(100);
+            rowTest.PartitionKey = "PartitionKeyTest";
+            rowTest.RowKey = "RowKeyTest";
+            _table.Insert(rowTest);
+            var getCreatedRow = _table.Get<TableRowTest>(rowTest.PartitionKey, rowTest.RowKey);
+            Assert.AreEqual(rowTest.Number, getCreatedRow.Number);
+            _table.Delete(rowTest);
+            var getDeletedRow = _table.Get<TableRowTest>(rowTest.PartitionKey, rowTest.RowKey);
+            Assert.AreEqual(null, getDeletedRow);
         }
     }
 }
