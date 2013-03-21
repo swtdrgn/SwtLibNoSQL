@@ -37,7 +37,7 @@ namespace SwtLib.Azure
 
         public T Get<T>(string partitionKey, string rowKey) where T : NoSQLTableEntity, new()
         {
-            var getOp = TableOperation.Retrieve<T>(partitionKey,rowKey);
+            var getOp = TableOperation.Retrieve<T>(partitionKey, rowKey);
             var response = Table.Execute(getOp);
             if (response != null)
             {

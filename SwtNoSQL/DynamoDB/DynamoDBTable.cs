@@ -6,7 +6,6 @@ using System.Reflection;
 
 using Amazon.DynamoDB;
 using Amazon.DynamoDB.Model;
-using Amazon.DynamoDB.DataModel;
 
 namespace SwtLib.DynamoDB
 {
@@ -15,19 +14,13 @@ namespace SwtLib.DynamoDB
         DynamoDB _database;
         string _name;
 
-        DynamoDBContext _context;
-
         public DynamoDBTable(DynamoDB database, string tableName)
         {
             _database = database;
             _name = tableName;
-            _context = new DynamoDBContext(Database);
         }
 
         public string Name { get { return _name; } }
-        private AmazonDynamoDBClient Database { get { return _database.Client(); } }
-        private DynamoDBContext Context { get { return _context; } }
-        private void WaitUntilTableIsActive() { WaitUntilTableIsActive(Database, Name); }
 
         public void CreateTable()
         {
@@ -62,18 +55,72 @@ namespace SwtLib.DynamoDB
 
         public void Drop()
         {
+            var client = _database.Client();
             var request = new DeleteTableRequest { TableName = Name };
-            Database.DeleteTable(request);
+            client.DeleteTable(request);
             WaitUntilTableIsActive();
         }
 
-        public void Insert(NoSQLTableEntity entity) { Context.Save(entity, new DynamoDBOperationConfig() { OverrideTableName = Name }); }
+        public void Insert(NoSQLTableEntity entity)
+        {
+            Dictionary<string, AttributeValue> columns = new Dictionary<string, AttributeValue>();
+            int blah = 5;
+            dynamic var = blah;
+            ToAttributeValue(var);
+            throw new NotImplementedException();
+        }
+
+        private AttributeValue ToAttributeValue(int value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(long value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(double value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(string value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(object value) { throw new NotImplementedException(); }
+
+        private AttributeValue ToAttributeValue(List<int> value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(List<long> value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(List<float> value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(List<double> value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(List<string> value) { throw new NotImplementedException(); }
+
         public void Insert<T>(NoSQLTableEntity entity) where T : NoSQLTableEntity, new()
         {
             throw new NotImplementedException();
         }
-        public T Get<T>(string partitionKey, string rowKey) where T : NoSQLTableEntity, new() { return Context.Load<T>(partitionKey, rowKey, new DynamoDBOperationConfig() { OverrideTableName = Name }); }
-        public void Delete(NoSQLTableEntity entity) { Context.Delete(entity, new DynamoDBOperationConfig() { OverrideTableName = Name }); }
+
+        public T Get<T>(string partitionKey, string rowKey) where T : NoSQLTableEntity, new()
+        {
+            T returnEntity = null;
+
+            var client = _database.Client();
+            var request = new GetItemRequest
+            {
+                TableName = Name,
+                Key = new Key
+                {
+                    HashKeyElement = new AttributeValue { S = partitionKey },
+                    RangeKeyElement = new AttributeValue { S = rowKey }
+                }
+            };
+            var row = client.GetItem(request).GetItemResult.Item;
+
+            foreach (PropertyInfo property in typeof(T).GetProperties())
+            {
+                if (property.GetGetMethod(false) == null || property.GetSetMethod(false) == null) { continue; }
+                AttributeValue value;
+                row.TryGetValue(property.Name, out value);
+            }
+            return returnEntity;
+        }
+
+        public void Delete(NoSQLTableEntity entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void WaitUntilTableIsActive()
+        {
+            WaitUntilTableIsActive(_database.Client(), Name);
+        }
 
         private static void WaitUntilTableIsActive(AmazonDynamoDBClient client, string tableName)
         {
