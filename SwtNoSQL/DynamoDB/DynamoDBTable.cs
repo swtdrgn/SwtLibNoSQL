@@ -24,7 +24,7 @@ namespace SwtLib.DynamoDB
 
         public void CreateTable()
         {
-            var client = _database.Client();
+            var client = _database.Client;
 
             var request = new CreateTableRequest
             {
@@ -55,7 +55,7 @@ namespace SwtLib.DynamoDB
 
         public void Drop()
         {
-            var client = _database.Client();
+            var client = _database.Client;
             var request = new DeleteTableRequest { TableName = Name };
             client.DeleteTable(request);
             WaitUntilTableIsActive();
@@ -64,16 +64,23 @@ namespace SwtLib.DynamoDB
         public void Insert(NoSQLTableEntity entity)
         {
             Dictionary<string, AttributeValue> columns = new Dictionary<string, AttributeValue>();
-            int blah = 5;
-            dynamic var = blah;
-            ToAttributeValue(var);
-            throw new NotImplementedException();
+            foreach (PropertyInfo property in entity.GetType().GetProperties())
+            {
+                if (property.GetGetMethod(false) == null || property.GetSetMethod(false) == null) { continue; }
+                try
+                {
+                    dynamic value = property.GetValue(entity, null);
+                    columns[property.Name] = ToAttributeValue(value);
+                }
+                catch { }
+            }
+            _database.Client.PutItem(new PutItemRequest() { TableName = _name, Item = columns });
         }
 
-        private AttributeValue ToAttributeValue(int value) { throw new NotImplementedException(); }
-        private AttributeValue ToAttributeValue(long value) { throw new NotImplementedException(); }
-        private AttributeValue ToAttributeValue(double value) { throw new NotImplementedException(); }
-        private AttributeValue ToAttributeValue(string value) { throw new NotImplementedException(); }
+        private AttributeValue ToAttributeValue(int value) { return new AttributeValue() { N = value.ToString() }; }
+        private AttributeValue ToAttributeValue(long value) { return new AttributeValue() { N = value.ToString() }; }
+        private AttributeValue ToAttributeValue(double value) { return new AttributeValue() { N = value.ToString() }; }
+        private AttributeValue ToAttributeValue(string value) { return new AttributeValue() { S = value }; }
         private AttributeValue ToAttributeValue(object value) { throw new NotImplementedException(); }
 
         private AttributeValue ToAttributeValue(List<int> value) { throw new NotImplementedException(); }
@@ -89,9 +96,7 @@ namespace SwtLib.DynamoDB
 
         public T Get<T>(string partitionKey, string rowKey) where T : NoSQLTableEntity, new()
         {
-            T returnEntity = null;
-
-            var client = _database.Client();
+            var client = _database.Client;
             var request = new GetItemRequest
             {
                 TableName = Name,
@@ -103,23 +108,67 @@ namespace SwtLib.DynamoDB
             };
             var row = client.GetItem(request).GetItemResult.Item;
 
+            if (row == null) { return null; }
+            T returnEntity = new T();
+
             foreach (PropertyInfo property in typeof(T).GetProperties())
             {
                 if (property.GetGetMethod(false) == null || property.GetSetMethod(false) == null) { continue; }
                 AttributeValue value;
                 row.TryGetValue(property.Name, out value);
+
+                dynamic getValue = property.GetValue(returnEntity, null);
+                
+                //property.SetValue(returnEntity, Convert.ChangeType(value.N, property.GetType()), null);
+
+                switch (Type.GetTypeCode(property.PropertyType))
+                {
+                    case TypeCode.Int16:
+                        property.SetValue(returnEntity, ReadNumber<Int16>(value), null);
+                        break;
+                    case TypeCode.Int32:
+                        property.SetValue(returnEntity, ReadNumber<Int32>(value), null);
+                        break;
+                    case TypeCode.Int64:
+                        property.SetValue(returnEntity, ReadNumber<Int64>(value), null);
+                        break;
+                    case TypeCode.Double:
+                        property.SetValue(returnEntity, ReadNumber<Double>(value), null);
+                        break;
+                    case TypeCode.String:
+                        property.SetValue(returnEntity, value.S, null);
+                        break;
+                    default:
+                        break;
+                }
             }
             return returnEntity;
         }
 
+        private static readonly MethodInfo ReadNumberReflectionMethod = typeof(DynamoDBTable).GetMethod("ReadNumber");
+        private static T ReadNumber<T>(AttributeValue value)
+        {
+            return (T)Convert.ChangeType(value.N, typeof(T));
+        }
+
         public void Delete(NoSQLTableEntity entity)
         {
-            throw new NotImplementedException();
+            var request = new DeleteItemRequest()
+            {
+                TableName = _name,
+                Key = new Key
+                {
+                    HashKeyElement = new AttributeValue { S = entity.PartitionKey },
+                    RangeKeyElement = new AttributeValue { S = entity.RowKey }
+                }
+            };
+
+            _database.Client.DeleteItem(request);
         }
 
         private void WaitUntilTableIsActive()
         {
-            WaitUntilTableIsActive(_database.Client(), Name);
+            WaitUntilTableIsActive(_database.Client, Name);
         }
 
         private static void WaitUntilTableIsActive(AmazonDynamoDBClient client, string tableName)

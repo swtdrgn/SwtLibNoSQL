@@ -16,7 +16,7 @@ namespace SwtLib.DynamoDB
 
         public DynamoDB(AWSCredentials account) { _account = account; _databaseClient = new AmazonDynamoDBClient(_account); }
 
-        public AmazonDynamoDBClient Client() { return _databaseClient; }
+        public AmazonDynamoDBClient Client { get { return _databaseClient; } }
 
         public override NoSQLTable CreateTable(string tableName)
         {
@@ -27,7 +27,7 @@ namespace SwtLib.DynamoDB
 
         public override NoSQLTable GetTable(string tableName)
         {
-            if (DynamoDBTable.Exist(Client(), tableName))
+            if (DynamoDBTable.Exist(Client, tableName))
             {
                 return new DynamoDBTable(this, tableName);
             }
